@@ -40,6 +40,7 @@ export const CustomDrawerContent: React.FC<DrawerContentComponentProps> = (props
                     label="Выход"
                     onPress={() => {
                         handleLogout();
+                        console.log('sadas');
                     }}
                 />
             </View>

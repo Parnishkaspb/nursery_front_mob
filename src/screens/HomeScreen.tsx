@@ -54,7 +54,7 @@ const HomeScreen: React.FC = () => {
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         fetchProjects();
-        console.log('refresh');
+        // console.log('refresh');
     }, []);
 
     const renderTitle = (): JSX.Element => {

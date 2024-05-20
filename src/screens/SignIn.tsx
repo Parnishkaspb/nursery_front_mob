@@ -27,40 +27,19 @@ const SignIn: React.FC = () => {
                 password: password,
             });
 
-            console.log(response.data.data);
-            if (response.data.data.code === 422) {
-                Alert.alert('Не все данные заполнены!');
+            if (response.data.data.code === 401) {
+                Alert.alert(response.data.data.message);
                 return;
             }
             if (response.data.data.code === 200) {
 
                 const access_token = response.data.data.access_token;
-                console.log(access_token);
                 await SecureStorage.setItem('access_token', access_token);
                 navigation.replace('Main');
                 return;
             }
-
             Alert.alert('Что-то пошло не так!');
         } catch (error: any) {
-            console.log(error);
-            if (error.response.status === 409) {
-                Alert.alert(
-                    'Ошибка!!!!',
-                    'Пользователь с таким логином или почто уже есть!',
-                    [
-                        {
-                            text: 'OK',
-                            onPress: () => {
-                                console.log('OK Pressed');
-                            },
-                        },
-                    ],
-                    { cancelable: false },
-                );
-                return;
-            }
-
             Alert.alert('Что-то пошло не так! Попробуйте позже!');
         } finally {
             setLoading(false);

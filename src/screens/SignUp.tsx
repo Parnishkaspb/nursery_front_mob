@@ -35,11 +35,11 @@ const SignUp: React.FC = () => {
                 telephone: telephone,
             });
 
-            console.log(response.data.data);
             if (response.data.data.code === 422) {
                 Alert.alert('Не все данные заполнены!');
                 return;
             }
+
             if (response.data.data.code === 200) {
 
                 const access_token = response.data.data.access_token;
@@ -51,7 +51,6 @@ const SignUp: React.FC = () => {
 
             Alert.alert('Что-то пошло не так!');
         } catch (error: any) {
-            console.log(error);
             if (error.response.status === 409) {
                 Alert.alert(
                     'Ошибка!!!!',

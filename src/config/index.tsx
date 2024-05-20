@@ -13,7 +13,7 @@ export const BASE_URL = LOCALHOST;
 
 export const LOGIN_USER = `${BASE_URL}api/user/login`;
 export const CREATE_USER = `${BASE_URL}api/user/register`;
-export const LOGOUT_USER = `${BASE_URL}api/user/register`;
+export const LOGOUT_USER = `${BASE_URL}api/user/logout`;
 // export const NEW_APPOINTMENT = `${BASE_URL}api/appointments/create`;
 
 export const ENDPOINTS = {
@@ -22,6 +22,7 @@ export const ENDPOINTS = {
   LOGIN_USER,
   // GET_DOCTORS,
   // GET_BANNERS,
+  LOGOUT_USER,
   CREATE_USER,
   // GET_CATEGORIES,
   // GET_DIAGNOSTICS,

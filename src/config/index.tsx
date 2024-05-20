@@ -3,7 +3,7 @@ const DOMAIN = '';
 
 export const BASE_URL = LOCALHOST;
 
-// export const GET_USER = `${BASE_URL}api/user`;
+export const GET_USER = `${BASE_URL}api/user/update`;
 // export const GET_BANNERS = `${BASE_URL}api/banners`;
 // export const GET_DOCTORS = `${BASE_URL}api/doctors`;
 // export const GET_CATEGORIES = `${BASE_URL}api/categories`;
@@ -18,7 +18,7 @@ export const LOGOUT_USER = `${BASE_URL}api/user/logout`;
 
 export const ENDPOINTS = {
   BASE_URL,
-  // GET_USER,
+  GET_USER,
   LOGIN_USER,
   // GET_DOCTORS,
   // GET_BANNERS,

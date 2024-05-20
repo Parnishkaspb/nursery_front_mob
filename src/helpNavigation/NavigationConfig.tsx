@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeScreen from '../screens/HomeScreen';
-// import ProfileScreen from '../screens/ProfileScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 
@@ -23,7 +23,7 @@ export const MainDrawer = () => (
         initialRouteName="Home"
         drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
-        {/* <Drawer.Screen name="Profile" options={{ headerShown: false, title: 'Настройки' }} component={ProfileScreen} /> */}
+        <Drawer.Screen name="Profile" options={{ headerShown: false, title: 'Настройки' }} component={ProfileScreen} />
         <Drawer.Screen name="Home" options={{ headerShown: false, title: 'Ваши инвестиции' }} component={HomeScreen} />
         {/* <Drawer.Screen name="NewWrite" options={{ title: 'Записаться к врачу' }} component={NewWriteScreen} /> */}
     </Drawer.Navigator>

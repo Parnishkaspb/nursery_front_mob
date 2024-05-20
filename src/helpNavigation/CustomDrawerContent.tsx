@@ -7,6 +7,8 @@ import SecureStorage from 'react-native-secure-storage';
 import axios from 'axios';
 import { styles } from './NavigationConfig';
 import { RootStackParamList } from '../helpNavigation/navigationTypes';
+import { ENDPOINTS } from '../config';
+
 
 type LoginFormProps = NativeStackNavigationProp<RootStackParamList, 'SignIn'>;
 
@@ -16,7 +18,7 @@ export const CustomDrawerContent: React.FC<DrawerContentComponentProps> = (props
     const handleLogout = async () => {
         const accessToken = await SecureStorage.getItem('access_token');
         if (accessToken) {
-            await axios.post('logout', {}, {
+            await axios.post(ENDPOINTS.LOGOUT_USER, {}, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
                 }
@@ -36,7 +38,9 @@ export const CustomDrawerContent: React.FC<DrawerContentComponentProps> = (props
             <View style={styles.exitButtonContainer}>
                 <DrawerItem
                     label="Выход"
-                    onPress={handleLogout}
+                    onPress={() => {
+                        handleLogout();
+                    }}
                 />
             </View>
         </DrawerContentScrollView>

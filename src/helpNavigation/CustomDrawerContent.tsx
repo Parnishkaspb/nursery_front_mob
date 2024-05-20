@@ -15,7 +15,7 @@ export const CustomDrawerContent: React.FC<DrawerContentComponentProps> = (props
                 <DrawerItem
                     label="Выход"
                     onPress={() => {
-                        navigation.navigate('Logout');
+                        // navigation.navigate('Logout');
                     }} />
             </View>
         </DrawerContentScrollView>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-// import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from '../screens/HomeScreen';
 // import ProfileScreen from '../screens/ProfileScreen';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
@@ -26,23 +26,23 @@ export const styles = StyleSheet.create({
     },
 });
 
-// export const MainDrawer = () => (
-//     <Drawer.Navigator
-//         initialRouteName="Home"
-//         drawerContent={(props) => <CustomDrawerContent {...props} />}
-//     >
-//         <Drawer.Screen name="Profile" options={{ title: 'Настройки' }} component={ProfileScreen} />
-//         <Drawer.Screen name="Home" options={{ title: 'Ваши записи' }} component={HomeScreen} />
-//         <Drawer.Screen name="NewWrite" options={{ title: 'Записаться к врачу' }} component={NewWriteScreen} />
-//     </Drawer.Navigator>
-// );
+export const MainDrawer = () => (
+    <Drawer.Navigator
+        initialRouteName="Home"
+        drawerContent={(props) => <CustomDrawerContent {...props} />}
+    >
+        {/* <Drawer.Screen name="Profile" options={{ title: 'Настройки' }} component={ProfileScreen} /> */}
+        <Drawer.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
+        {/* <Drawer.Screen name="NewWrite" options={{ title: 'Записаться к врачу' }} component={NewWriteScreen} /> */}
+    </Drawer.Navigator>
+);
 
 export const RootNavigator = () => (
     <Stack.Navigator initialRouteName="SignUp" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
-        {/* <Stack.Screen name="Main" component={MainDrawer} />
-        <Stack.Screen name="Logout" component={LogoutScreen} />
+        <Stack.Screen name="Main" component={MainDrawer} />
+        {/* <Stack.Screen name="Logout" component={LogoutScreen} />
         <Stack.Screen name="Edit" options={{ title: 'Редактировать данные' }} component={EditScreen} />
         <Stack.Screen name="VisitDetails" component={VisitDetailsScreen} /> */}
     </Stack.Navigator>

@@ -1,7 +1,7 @@
 export type RootStackParamList = {
     SignIn: undefined;
     SignUp: undefined;
-    // Main: undefined;
+    Main: undefined;
     // Logout: undefined;
     // Edit: undefined;
     // VisitDetails: { visitId: number };
@@ -9,6 +9,6 @@ export type RootStackParamList = {
 
 export type DrawerParamList = {
     Home: undefined;
-    Profile: undefined;
-    NewWrite: undefined;
+    // Profile: undefined;
+    // NewWrite: undefined;
 };

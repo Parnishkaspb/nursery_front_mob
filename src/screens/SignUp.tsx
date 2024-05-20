@@ -45,7 +45,7 @@ const SignUp: React.FC = () => {
                 const access_token = response.data.data.access_token;
                 console.log(access_token);
                 await SecureStorage.setItem('access_token', access_token);
-                // navigation.replace('Home');
+                navigation.replace('Main');
                 return;
             }
 

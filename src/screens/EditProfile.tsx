@@ -9,15 +9,6 @@ import { RootStackParamList } from '../helpNavigation/navigationTypes';
 
 type Navigation = NativeStackNavigationProp<RootStackParamList>;
 
-// interface User {
-//     id: number;
-//     name: string;
-//     surname: string;
-//     email: string;
-//     login: string;
-//     telephone: string;
-// }
-
 const EditProfile: React.FC<{ route: any }> = ({ route }) => {
     const navigation: Navigation = useNavigation<Navigation>();
     const { user } = route.params;
@@ -53,7 +44,7 @@ const EditProfile: React.FC<{ route: any }> = ({ route }) => {
             });
 
             if (response.data.data.code === 200) {
-                Alert.alert('Успех', 'Профиль обновлен успешно');
+                Alert.alert('Успех', response.data.data.message + '\nОбновите страницу!');
                 navigation.goBack();
                 return;
             }
@@ -166,6 +157,20 @@ const EditProfile: React.FC<{ route: any }> = ({ route }) => {
         );
     };
 
+    const renderButtonBack = (): JSX.Element => {
+        return (
+            <TouchableOpacity
+                style={styles.buttonBack}
+                onPress={navigation.goBack}
+                disabled={loading}
+            >
+                {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Назад</Text>}
+            </TouchableOpacity>
+        );
+    };
+
+
+
     const renderContent = (): JSX.Element => {
         return (
             <ScrollView
@@ -174,6 +179,7 @@ const EditProfile: React.FC<{ route: any }> = ({ route }) => {
                 {renderTitle()}
                 {renderInputFields()}
                 {renderButton()}
+                {renderButtonBack()}
             </ScrollView>
         );
     };
@@ -207,6 +213,14 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: '#1D4E89',
+        borderRadius: 5,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 20,
+    },
+    buttonBack: {
+        backgroundColor: 'red',
         borderRadius: 5,
         height: 50,
         alignItems: 'center',

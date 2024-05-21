@@ -89,7 +89,7 @@ const ProfileScreen: React.FC = () => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.editPasswordButton}
-                // onPress={() => navigation.navigate('EditPassword')}
+                    onPress={() => navigation.navigate('EditPassword')}
                 >
                     <Text style={styles.editButtonText}>Сменить пароль</Text>
                 </TouchableOpacity>

@@ -17,6 +17,7 @@ const CreateInvestition: React.FC = () => {
     const [summa, setSumma] = useState<string>('');
     const [percent, setPercent] = useState<number>(0);
     const [years, setYears] = useState<number>(0);
+    const [summaBackAfter, setSummaBackAfter] = useState<string>('');
 
     const handleCreateInvestition = async () => {
         try {
@@ -27,8 +28,18 @@ const CreateInvestition: React.FC = () => {
                 console.error('No access token found');
                 return;
             }
+
+            const IntSumma = parseInt(summa);
+
+            // console.log(typeIntSumma);
+
+            if (IntSumma <= 4999999) {
+                Alert.alert('ПРЕДУПРЕЖДЕНИЕ!', 'Сумма меньше 5000000₽',);
+                return;
+            }
+
             const response = await axios.post(ENDPOINTS.USER_INVESTITIONS, {
-                summa: summa,
+                summa: IntSumma,
                 percent: percent,
                 years: years
             }, {
@@ -78,16 +89,6 @@ const CreateInvestition: React.FC = () => {
         setSumma(numericValue);
     }, []);
 
-    const handlePercentChange = useCallback((text: number): void => {
-        setPercent(text);
-    }, []);
-
-    const handleYearsChange = useCallback((text: number): void => {
-        setYears(text);
-    }, []);
-
-
-
     const summaInputRef = useRef<TextInput>(null);
     const percentInputRef = useRef<TextInput>(null);
     const yearsInputRef = useRef<TextInput>(null);
@@ -98,17 +99,11 @@ const CreateInvestition: React.FC = () => {
             summaInputRef.current?.blur();
             percentInputRef.current?.blur();
             yearsInputRef.current?.blur();
-
         }
     }, [loading]);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('blur', () => {
-            setSumma('');
-            setPercent(0);
-            setYears(0);
-
-
             summaInputRef.current?.blur();
             percentInputRef.current?.blur();
             yearsInputRef.current?.blur();
@@ -123,11 +118,43 @@ const CreateInvestition: React.FC = () => {
         );
     };
 
-    const renderInputFields = (): JSX.Element => {
-        function setSelectedValue(value: any): void {
-            throw new Error('Function not implemented.');
+    function setSelectedValue(value: any): void {
+        let selectedPercent = 0;
+        let selectedYears = 0;
+
+        switch (value) {
+            case '30':
+                selectedPercent = 30;
+                selectedYears = 3;
+                break;
+            case '40':
+                selectedPercent = 40;
+                selectedYears = 4;
+                break;
+            case '45':
+                selectedPercent = 45;
+                selectedYears = 5;
+                break;
+            default:
+                selectedPercent = 0;
+                selectedYears = 0;
         }
 
+        setPercent(selectedPercent);
+        setYears(selectedYears);
+
+        console.log(selectedPercent);
+
+        const summaNumber = parseFloat(summa);
+        if (!isNaN(summaNumber)) {
+            const newSummaBackAfter = (summaNumber * (1 + selectedPercent / 100)).toFixed(0);
+            setSummaBackAfter(newSummaBackAfter);
+        } else {
+            setSummaBackAfter('');
+        }
+    }
+
+    const renderInputFields = (): JSX.Element => {
         return (
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -144,15 +171,21 @@ const CreateInvestition: React.FC = () => {
                 <RNPickerSelect
                     onValueChange={(value) => setSelectedValue(value)}
                     items={[
-                        { label: 'Опция 1', value: 'option1' },
-                        { label: 'Опция 2', value: 'option2' },
-                        { label: 'Опция 3', value: 'option3' },
+                        { label: '3 года: 30%', value: 30 },
+                        { label: '4 года: 40%', value: 40 },
+                        { label: '5 лет: 45%', value: 45 },
                     ]}
                     style={pickerSelectStyles}
-                    placeholder={{ label: 'Выберите опцию', value: null }}
+                    placeholder={{ label: 'Срок вложения:', value: null }}
+                />
+
+                <TextInput
+                    style={styles.input}
+                    value={summaBackAfter}
+                    editable={false}
+                    placeholder={'Сумма после возврата'}
                 />
             </KeyboardAvoidingView>
-
         );
     };
 
@@ -161,7 +194,6 @@ const CreateInvestition: React.FC = () => {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                    // Assuming validation is a function that validates the user details
                     handleCreateInvestition();
                 }}
                 disabled={loading}
@@ -185,7 +217,6 @@ const CreateInvestition: React.FC = () => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            {/* {renderHeader()} */}
             {renderContent()}
         </SafeAreaView>
     );
@@ -195,15 +226,6 @@ const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
         backgroundColor: '#fff',
-    },
-    header: {
-        padding: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
-    },
-    goBackText: {
-        fontSize: 18,
-        color: '#007AFF',
     },
     title: {
         marginBottom: 30,
@@ -231,19 +253,6 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#fff',
         fontSize: 18,
-    },
-    accountContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        alignSelf: 'center',
-    },
-    accountText: {
-        fontSize: 16,
-        color: '#888',
-    },
-    signInText: {
-        fontSize: 16,
-        color: '#1D4E89',
     },
     contentContainer: {
         flexGrow: 1,

@@ -28,7 +28,7 @@ export const MainDrawer = () => (
     >
         <Drawer.Screen name="Profile" options={{ headerShown: false, title: 'Настройки' }} component={ProfileScreen} />
         <Drawer.Screen name="Home" options={{ headerShown: false, title: 'Ваши инвестиции' }} component={HomeScreen} />
-        <Drawer.Screen name="CreateInvestition" options={{ headerShown: false, title: 'Ваши инвестиции' }} component={CreateInvestition} />
+        <Drawer.Screen name="CreateInvestition" options={{ headerShown: false, title: 'Инвестировать' }} component={CreateInvestition} />
 
         {/* <Drawer.Screen name="NewWrite" options={{ title: 'Записаться к врачу' }} component={NewWriteScreen} /> */}
     </Drawer.Navigator>

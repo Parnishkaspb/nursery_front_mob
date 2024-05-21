@@ -82,17 +82,18 @@ const ProfileScreen: React.FC = () => {
                 <Text style={styles.profileItem}><Text style={styles.profileLabel}>Логин:</Text> {user.login}</Text>
                 <TouchableOpacity
                     style={styles.editButton}
-                // onPress={() => navigation.navigate('EditProfile', { userId: user.id })}
+                    onPress={() => navigation.navigate('EditProfile', { user: user })
+                    }
                 >
                     <Text style={styles.editButtonText}>Редактировать профиль</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={styles.editButton}
+                    style={styles.editPasswordButton}
                 // onPress={() => navigation.navigate('EditPassword')}
                 >
                     <Text style={styles.editButtonText}>Сменить пароль</Text>
                 </TouchableOpacity>
-            </View>
+            </View >
         );
     };
 
@@ -158,6 +159,14 @@ const styles = StyleSheet.create({
     editButtonText: {
         color: '#fff',
         fontSize: 18,
+    },
+    editPasswordButton: {
+        backgroundColor: 'red',
+        borderRadius: 5,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 20,
     },
     contentContainer: {
         flexGrow: 1,

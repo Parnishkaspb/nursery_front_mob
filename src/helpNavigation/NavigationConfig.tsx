@@ -7,7 +7,9 @@ import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 
 // import LogoutScreen from '../screens/LogoutScreen';
-// import EditScreen from '../screens/EditScreen';
+import EditProfile from '../screens/EditProfile';
+
+
 // import NewWriteScreen from '../screens/NewWriteScreen';
 // import VisitDetailsScreen from '../screens/VisitDetailsScreen';
 
@@ -35,7 +37,8 @@ export const RootNavigator = () => (
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="Main" component={MainDrawer} />
 
-        {/* <Stack.Screen name="Edit" options={{ title: 'Редактировать данные' }} component={EditScreen} /> */}
+        <Stack.Screen name="EditProfile" options={{ title: 'Редактировать данные' }} component={EditProfile} />
+        {/* <Stack.Screen name="EditPassword" options={{ title: 'Смена пароля' }} component={EditPassword} /> */}
 
         {/*<Stack.Screen name="Edit" options={{ title: 'Редактировать данные' }} component={EditScreen} />
         <Stack.Screen name="VisitDetails" component={VisitDetailsScreen} /> */}

@@ -4,9 +4,7 @@ export type RootStackParamList = {
     Main: undefined;
     EditProfile: { user: object };
     EditPassword: undefined;
-
-
-    // Logout: undefined;
+    CreateInvestition: undefined;
     // Edit: undefined;
     // VisitDetails: { visitId: number };
 };
@@ -14,5 +12,6 @@ export type RootStackParamList = {
 export type DrawerParamList = {
     Home: undefined;
     Profile: undefined;
+    CreateInvestition: undefined;
     // NewWrite: undefined;
 };

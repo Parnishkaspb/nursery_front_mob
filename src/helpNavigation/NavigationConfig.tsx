@@ -8,14 +8,10 @@ import SignUp from '../screens/SignUp';
 
 import EditPassword from '../screens/EditPassword';
 import EditProfile from '../screens/EditProfile';
-
-
 import CreateInvestition from '../screens/CreateInvestition';
-
-// import VisitDetailsScreen from '../screens/VisitDetailsScreen';
+import InvestitionDetails from '../screens/InvestitionDetails';
 
 import { RootStackParamList, DrawerParamList } from './navigationTypes';
-
 import { CustomDrawerContent } from './CustomDrawerContent';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -44,10 +40,6 @@ export const RootNavigator = () => (
         <Stack.Screen name="EditPassword" options={{ title: 'Смена пароля' }} component={EditPassword} />
 
         <Stack.Screen name="CreateInvestition" options={{ title: 'Инвестировать' }} component={CreateInvestition} />
-
-        {/*  */}
-
-        {/*<Stack.Screen name="Edit" options={{ title: 'Редактировать данные' }} component={EditScreen} />
-        <Stack.Screen name="VisitDetails" component={VisitDetailsScreen} /> */}
+        <Stack.Screen name="InvestitionDetails" component={InvestitionDetails} />
     </Stack.Navigator>
 );

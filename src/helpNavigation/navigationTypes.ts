@@ -6,7 +6,7 @@ export type RootStackParamList = {
     EditPassword: undefined;
     CreateInvestition: undefined;
     // Edit: undefined;
-    // VisitDetails: { visitId: number };
+    InvestitionDetails: { investitionId: number };
 };
 
 export type DrawerParamList = {

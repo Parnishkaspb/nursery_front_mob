@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView, FlatList, RefreshControl } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView, FlatList, RefreshControl, Alert } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -50,6 +50,35 @@ const HomeScreen: React.FC = () => {
         }
     };
 
+    const deleteInvestition = async (id: number) => {
+        try {
+            const accessToken = await SecureStorage.getItem('access_token');
+            if (!accessToken) {
+                console.error('No access token found');
+                return;
+            }
+
+            const response = await axios.delete(`${ENDPOINTS.USER_INVESTITIONS}/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            });
+
+            if (response.data.data.code === 200) {
+                Alert.alert('Успех!', response.data.data.message);
+            }
+
+            setInvestitions(prevInvestitions => prevInvestitions.filter(investition => investition.id !== id));
+
+        } catch (error) {
+            console.error('Failed to delete investition:', error);
+        } finally {
+            setLoading(false);
+            setRefreshing(false);
+        }
+    };
+
+
     useEffect(() => {
         fetchProjects();
     }, []);
@@ -67,15 +96,34 @@ const HomeScreen: React.FC = () => {
 
     const renderProjectItem = ({ item }: { item: Investition }): JSX.Element => {
         return (
-            <TouchableOpacity
-                style={styles.projectItem}
-            // onPress={() => navigation.navigate('ProjectDetails', { projectId: item.id })}
-            >
-                <Text style={styles.projectTitle}>{item.summa}</Text>
-                <Text style={styles.projectDescription}>{item.percent}</Text>
-            </TouchableOpacity>
+            <TouchableOpacity style={styles.projectItem}>
+                <Text style={styles.projectTitle}>Сумма: {item.summa}</Text>
+                <Text style={styles.projectDescription}>Срок: {item.years} года(лет)</Text>
+                {item.money_give === 0 ? (
+                    <>
+                        <Text style={styles.projectDescriptionColor0}>Инвестиция еще не принята</Text>
+                        <TouchableOpacity style={styles.button2} onPress={() => {
+                            deleteInvestition(item.id)
+                        }}>
+                            <Text style={styles.buttonText}>Удалить</Text>
+                        </TouchableOpacity>
+                    </>
+                ) : null}
+
+                {
+                    item.money_give === 1 ? (
+                        <TouchableOpacity style={styles.button} onPress={() => {
+                            // navigation.navigate('InvestitionDetails', { investitionId: item.id })
+                        }}>
+                            <Text style={styles.buttonText}>Полная информация</Text>
+                        </TouchableOpacity>
+                    ) : null
+                }
+            </TouchableOpacity >
         );
     };
+
+
 
     const renderProjectsList = (): JSX.Element => {
         if (loading) {
@@ -165,6 +213,10 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#495057',
     },
+    projectDescriptionColor0: {
+        fontSize: 14,
+        color: 'red',
+    },
     noProjectsText: {
         textAlign: 'center',
         fontSize: 18,
@@ -179,10 +231,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    button2: {
+        backgroundColor: 'red',
+        borderRadius: 5,
+        height: 50,
+        width: 200,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     buttonText: {
         color: '#fff',
         fontSize: 18,
     },
+
+
     contentContainer: {
         flexGrow: 1,
         paddingHorizontal: 20,

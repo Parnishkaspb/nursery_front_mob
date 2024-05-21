@@ -113,7 +113,7 @@ const HomeScreen: React.FC = () => {
                 {
                     item.money_give === 1 ? (
                         <TouchableOpacity style={styles.button} onPress={() => {
-                            // navigation.navigate('InvestitionDetails', { investitionId: item.id })
+                            navigation.navigate('InvestitionDetails', { investitionId: item.id })
                         }}>
                             <Text style={styles.buttonText}>Полная информация</Text>
                         </TouchableOpacity>

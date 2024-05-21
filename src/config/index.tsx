@@ -17,6 +17,9 @@ export const GET_USER = `${BASE_URL}api/user/update`;
 export const UPDATE_PASSWORD_USER = `${BASE_URL}api/user/updatepassword`;
 export const LOGOUT_USER = `${BASE_URL}api/user/logout`;
 
+export const USER_INVESTITIONS = `${BASE_URL}api/user/investitions`;
+
+
 // export const NEW_APPOINTMENT = `${BASE_URL}api/appointments/create`;
 
 export const ENDPOINTS = {
@@ -26,6 +29,7 @@ export const ENDPOINTS = {
   UPDATE_PASSWORD_USER,
   LOGOUT_USER,
   CREATE_USER,
+  USER_INVESTITIONS,
 
 
   // GET_DOCTORS,

@@ -10,7 +10,8 @@ import EditPassword from '../screens/EditPassword';
 import EditProfile from '../screens/EditProfile';
 
 
-// import NewWriteScreen from '../screens/NewWriteScreen';
+import CreateInvestition from '../screens/CreateInvestition';
+
 // import VisitDetailsScreen from '../screens/VisitDetailsScreen';
 
 import { RootStackParamList, DrawerParamList } from './navigationTypes';
@@ -27,6 +28,8 @@ export const MainDrawer = () => (
     >
         <Drawer.Screen name="Profile" options={{ headerShown: false, title: 'Настройки' }} component={ProfileScreen} />
         <Drawer.Screen name="Home" options={{ headerShown: false, title: 'Ваши инвестиции' }} component={HomeScreen} />
+        <Drawer.Screen name="CreateInvestition" options={{ headerShown: false, title: 'Ваши инвестиции' }} component={CreateInvestition} />
+
         {/* <Drawer.Screen name="NewWrite" options={{ title: 'Записаться к врачу' }} component={NewWriteScreen} /> */}
     </Drawer.Navigator>
 );
@@ -39,6 +42,10 @@ export const RootNavigator = () => (
 
         <Stack.Screen name="EditProfile" options={{ title: 'Редактировать данные' }} component={EditProfile} />
         <Stack.Screen name="EditPassword" options={{ title: 'Смена пароля' }} component={EditPassword} />
+
+        <Stack.Screen name="CreateInvestition" options={{ title: 'Инвестировать' }} component={CreateInvestition} />
+
+        {/*  */}
 
         {/*<Stack.Screen name="Edit" options={{ title: 'Редактировать данные' }} component={EditScreen} />
         <Stack.Screen name="VisitDetails" component={VisitDetailsScreen} /> */}

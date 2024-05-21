@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { View, Text, Alert, Platform, TextInput, ScrollView, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator, StyleSheet, SafeAreaView, FlatList, RefreshControl } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet, SafeAreaView, FlatList, RefreshControl } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -9,16 +9,20 @@ import { RootStackParamList } from '../helpNavigation/navigationTypes';
 
 type Navigation = NativeStackNavigationProp<RootStackParamList>;
 
-interface Project {
+interface Investition {
     id: number;
-    name: string;
-    description: string;
+    summa: number;
+    money_give: number;
+    percent: number;
+    years: number;
+    create: string;
+    update: string;
 }
 
 const HomeScreen: React.FC = () => {
     const navigation: Navigation = useNavigation<Navigation>();
 
-    const [projects, setProjects] = useState<Project[]>([]);
+    const [investitions, setInvestitions] = useState<Investition[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [refreshing, setRefreshing] = useState<boolean>(false);
 
@@ -30,17 +34,16 @@ const HomeScreen: React.FC = () => {
                 return;
             }
 
-            // const response = await axios.get(ENDPOINTS.USER_PROJECTS, {
-            //     headers: {
-            //         'Authorization': `Bearer ${accessToken}`,
-            //     }
-            // });
+            const response = await axios.get(ENDPOINTS.USER_INVESTITIONS, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                }
+            });
 
-            // setProjects(response.data.data);
-
+            setInvestitions(response.data.data);
 
         } catch (error) {
-            console.error('Failed to fetch projects:', error);
+            console.error('Failed to fetch user profile:', error);
         } finally {
             setLoading(false);
             setRefreshing(false);
@@ -54,7 +57,6 @@ const HomeScreen: React.FC = () => {
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         fetchProjects();
-        // console.log('refresh');
     }, []);
 
     const renderTitle = (): JSX.Element => {
@@ -63,14 +65,14 @@ const HomeScreen: React.FC = () => {
         );
     };
 
-    const renderProjectItem = ({ item }: { item: Project }): JSX.Element => {
+    const renderProjectItem = ({ item }: { item: Investition }): JSX.Element => {
         return (
             <TouchableOpacity
                 style={styles.projectItem}
             // onPress={() => navigation.navigate('ProjectDetails', { projectId: item.id })}
             >
-                <Text style={styles.projectTitle}>{item.name}</Text>
-                <Text style={styles.projectDescription}>{item.description}</Text>
+                <Text style={styles.projectTitle}>{item.summa}</Text>
+                <Text style={styles.projectDescription}>{item.percent}</Text>
             </TouchableOpacity>
         );
     };
@@ -80,13 +82,23 @@ const HomeScreen: React.FC = () => {
             return <ActivityIndicator size="large" color="#1D4E89" />;
         }
 
-        if (projects.length === 0) {
-            return <Text style={styles.noProjectsText}>У вас нет инвестиций</Text>;
+        if (investitions.length === 0) {
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.noProjectsText}>У вас нет инвестиций</Text>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => navigation.navigate('CreateInvestition')} // Замените 'InvestPage' на название вашего экрана для инвестирования
+                    >
+                        <Text style={styles.buttonText}>Инвестировать</Text>
+                    </TouchableOpacity>
+                </View>
+            );
         }
 
         return (
             <FlatList
-                data={projects}
+                data={investitions}
                 renderItem={renderProjectItem}
                 keyExtractor={(item) => item.id.toString()}
                 contentContainerStyle={styles.projectListContainer}
@@ -102,17 +114,30 @@ const HomeScreen: React.FC = () => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <ScrollView contentContainerStyle={styles.contentContainer}>
+            <ScrollView
+                contentContainerStyle={styles.contentContainer}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
+            >
                 {renderTitle()}
                 {renderProjectsList()}
             </ScrollView>
         </SafeAreaView>
     );
 };
-
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
+        backgroundColor: '#fff',
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: '#fff',
     },
     title: {
@@ -144,6 +169,19 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 18,
         color: '#888',
+        marginBottom: 20,
+    },
+    button: {
+        backgroundColor: '#1D4E89',
+        borderRadius: 5,
+        height: 50,
+        width: 200,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 18,
     },
     contentContainer: {
         flexGrow: 1,

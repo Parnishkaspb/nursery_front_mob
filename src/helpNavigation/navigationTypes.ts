@@ -3,8 +3,7 @@ export type RootStackParamList = {
     SignUp: undefined;
     Main: undefined;
     EditProfile: { user: object };
-
-    // EditPassword: undefined;
+    EditPassword: undefined;
 
 
     // Logout: undefined;

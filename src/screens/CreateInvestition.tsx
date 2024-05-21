@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import SecureStorage from 'react-native-secure-storage';
 import { ENDPOINTS } from '../config';
 import { RootStackParamList } from '../helpNavigation/navigationTypes';
+import RNPickerSelect from 'react-native-picker-select';
 
 type Navigation = NativeStackNavigationProp<RootStackParamList>;
 
@@ -21,10 +22,19 @@ const CreateInvestition: React.FC = () => {
         try {
             setLoading(true);
 
+            const accessToken = await SecureStorage.getItem('access_token');
+            if (!accessToken) {
+                console.error('No access token found');
+                return;
+            }
             const response = await axios.post(ENDPOINTS.USER_INVESTITIONS, {
                 summa: summa,
                 percent: percent,
                 years: years
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                }
             });
 
             if (response.data.data.code === 422) {
@@ -114,6 +124,10 @@ const CreateInvestition: React.FC = () => {
     };
 
     const renderInputFields = (): JSX.Element => {
+        function setSelectedValue(value: any): void {
+            throw new Error('Function not implemented.');
+        }
+
         return (
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -126,6 +140,7 @@ const CreateInvestition: React.FC = () => {
                     keyboardType="numeric"
                     ref={summaInputRef}
                 />
+
                 <RNPickerSelect
                     onValueChange={(value) => setSelectedValue(value)}
                     items={[
@@ -136,23 +151,8 @@ const CreateInvestition: React.FC = () => {
                     style={pickerSelectStyles}
                     placeholder={{ label: 'Выберите опцию', value: null }}
                 />
-
-                {/* <TextInput
-                    style={styles.input}
-                    value={userSurname}
-                    onChangeText={handleSurnameChange}
-                    placeholder={'Фамилия'}
-                    ref={surnameInputRef}
-                />
-                <TextInput
-                    style={styles.input}
-                    value={email}
-                    onChangeText={handleEmailChange}
-                    placeholder='Почта'
-                    keyboardType='email-address'
-                    ref={emailInputRef}
-                /> */}
             </KeyboardAvoidingView>
+
         );
     };
 
@@ -250,6 +250,32 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 20,
         justifyContent: 'center',
+    },
+});
+
+
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        height: 50,
+        fontSize: 18,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 5,
+        color: 'black',
+        marginBottom: 20,
+    },
+    inputAndroid: {
+        height: 50,
+        fontSize: 18,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 5,
+        color: 'black',
+        marginBottom: 20,
     },
 });
 
